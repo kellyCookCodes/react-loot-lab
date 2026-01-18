@@ -1,1 +1,251 @@
+/* =========================================================
+   LOOTLAB — GLOBAL THEME (PASTEL ARCADE)
+   ========================================================= */
 
+:root {
+  /* -- BACKGROUNDS -- */
+  --ll-bg: #fdfdfd;
+  --ll-surface: #ffffff;
+  --ll-surface-alt: #f7faff;
+
+  /* -- BRAND COLORS -- */
+  --ll-accent: #a8f0d1;
+  /* MINT */
+  --ll-highlight: #bcd3ff;
+  /* SOFT BLUE */
+  --ll-pop: #ffb8e8;
+  /* BUBBLEGUM PINK */
+
+  /* -- BORDERS -- */
+  --ll-border: #d9e2ec;
+
+  /* -- TEXT -- */
+  --ll-text-primary: #1f2d3d;
+  --ll-text-secondary: #4f5d75;
+  --ll-text-on-accent: #1f2d3d;
+
+  /* -- BUTTON COLORS -- */
+  --ll-btn-primary-bg: var(--ll-accent);
+  --ll-btn-primary-text: var(--ll-text-on-accent);
+
+  --ll-btn-accent-bg: var(--ll-highlight);
+  --ll-btn-accent-text: var(--ll-text-primary);
+
+  --ll-btn-danger-bg: #ffb3b3;
+  --ll-btn-danger-text: #1f2d3d;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+body {
+  background-color: var(--ll-bg);
+  color: var(--ll-text-primary);
+  font-family: 'Inter', sans-serif;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.lootlab-navbar {
+  background-color: var(--ll-surface);
+  border-bottom: 1px solid var(--ll-border);
+}
+
+.lootlab-navbar .nav-link,
+.lootlab-navbar .navbar-brand {
+  color: var(--ll-text-primary);
+}
+
+.lootlab-navbar .nav-link.active {
+  color: var(--ll-pop);
+  font-weight: 600;
+}
+
+/* =========================================================
+   NAV BAR - CART BADGE
+   ========================================================= */
+
+.badge.ll-badge,
+.text-bg-primary.ll-badge,
+.bg-primary.ll-badge {
+  background-color: var(--ll-pop) !important;
+  color: var(--ll-text-primary) !important;
+  padding: 0.35em 0.6em;
+  font-weight: 600;
+  border-radius: 50px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.ll-brand-accent {
+  background-color: var(--ll-accent);
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: var(--ll-text-primary);
+}
+
+/* =========================================================
+   PRODUCT & CART CARDS — SHARED BASE
+   ========================================================= */
+
+.ll-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ll-card img {
+  height: 400px;
+  object-fit: cover;
+  border-radius: 6px 6px 0 0;
+}
+
+.ll-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.ll-card .card-title {
+  min-height: 56px;
+  line-height: 1.2;
+}
+
+.ll-card .btn {
+  margin-top: auto;
+}
+
+/* =========================================================
+   CART-ONLY LAYOUT
+   ========================================================= */
+
+.ll-cart-card {
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================================
+   QUANTITY CONTROLS
+   ========================================================= */
+
+.ll-qty {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  margin-top: 8px;
+}
+
+
+.ll-qty-btn {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 32px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 6px;
+  background-color: var(--ll-surface);
+  color: var(--ll-text-primary);
+  border: 1px solid var(--ll-border);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.ll-qty-input {
+  width: 36px;
+  height: 32px;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+  text-align: center;
+  border: 1px solid var(--ll-border);
+  border-radius: 6px;
+  background-color: var(--ll-bg);
+}
+
+
+/* =========================================================
+   BUTTON SYSTEM
+   ========================================================= */
+
+.ll-btn-primary,
+.ll-btn-accent {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  min-width: 250px;
+  max-width: 100%;
+  transition: background-color 0.15s ease;
+}
+
+.ll-btn-primary {
+  background-color: var(--ll-btn-primary-bg);
+  color: var(--ll-btn-primary-text);
+  margin-bottom: 5px;
+}
+
+.ll-btn-primary:hover {
+  background-color: #92e8c4;
+  /* slightly darker mint */
+  color: var(--ll-text-primary);
+}
+
+.ll-btn-accent {
+  background-color: var(--ll-btn-accent-bg);
+  color: var(--ll-btn-accent-text);
+}
+
+.ll-btn-accent:hover {
+  background-color: #a5c2ff;
+  color: var(--ll-text-primary);
+}
+
+/* margin between (- qty +) and the Remove from cart btn */
+.ll-cart-card .ll-btn-primary {
+  margin-top: 10px;
+}
+
+
+/* =========================================================
+   SELECT (FILTER CATEGORY DROPDOWN)
+   ========================================================= */
+
+.ll-select {
+  max-width: 10em;
+  background-color: var(--ll-surface);
+  border: 1px solid var(--ll-border);
+  color: var(--ll-text-primary);
+}
+
+/* =========================================================
+   SUMMARY CARD
+   ========================================================= */
+
+.ll-summary-card {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: var(--ll-bg);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}

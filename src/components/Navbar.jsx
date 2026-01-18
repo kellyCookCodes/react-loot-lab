@@ -1,14 +1,15 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Badge from 'react-bootstrap/Badge';
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Badge from 'react-bootstrap/Badge'
 import logo from '../assets/logo.png'
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom'
 
 function NavbarComponent({ cart }) {
+  const totalItems = cart.reduce((sum, item) => sum + item.qty, 0)
   return (
-    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+    <Navbar collapseOnSelect expand="lg" className="lootlab-navbar">
       <Container>
         <Navbar.Brand as={NavLink} to='/'>
           <img
@@ -34,7 +35,7 @@ function NavbarComponent({ cart }) {
                 isActive ? "active" : ""
               }>
               Cart {' '}
-              <Badge pill bg="success">{cart.length}</Badge>
+              <Badge pill className="ll-badge">{totalItems}</Badge>
             </Nav.Link>
             <NavDropdown title="Account" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
@@ -54,4 +55,4 @@ function NavbarComponent({ cart }) {
   );
 }
 
-export default NavbarComponent;
+export default NavbarComponent

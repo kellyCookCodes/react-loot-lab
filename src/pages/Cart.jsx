@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import { ListGroup } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-function Cart({ cart, addToCart }) {
+function Cart({ cart, addToCart, decreaseQty, removeFromCart }) {
   const [products, setProducts] = useState([])
 
   const deliveryCharge = 10
@@ -26,64 +26,97 @@ function Cart({ cart, addToCart }) {
   }, [])
 
   const cartProducts = useMemo(() => {
-    return products.filter(p => cart.includes(p.id))
+    return products.filter(p => cart.some(item => item.id === p.id))
   }, [products, cart])
 
   const subTotal = useMemo(() => {
-    return cartProducts.reduce((sum, p) => sum + p.price, 0)
-  }, [cartProducts])
+    return cartProducts.reduce((sum, p) => {
+      const cartItem = cart.find(item => item.id === p.id)
+      return sum + p.price * (cartItem?.qty || 0)
+    }, 0)
+  }, [cartProducts, cart])
+
+  const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
     <div>
-      <h2 className="display-5">Your Loot!</h2>
+      <h2 className="display-5">Your <span className="ll-brand-accent">Loot!</span></h2>
 
       <Row className='mt-5'>
-        {cartProducts.length ? cartProducts.map(product => (
-          <Col key={product.id}>
-            <Card style={{ width: '18rem', margin: '1em auto' }}>
-              <Card.Img variant="top" src={product.images[0]} />
-              <Card.Body>
-                <Card.Title style={{ minHeight: '48px' }}>
-                  {product.title}
-                </Card.Title>
-                <Card.Text>
-                  ${product.price}
-                </Card.Text>
+        {cartProducts.length ? cartProducts.map(product => {
 
-                <Button>-</Button>
-                <input type="text" />
-                <Button>+</Button>
+          const cartItem = cart.find(item => item.id === product.id)
 
-                <Button
-                  variant="warning"
-                  className='me-1'
-                  onClick={() => addToCart(product.id)}
-                >
-                  {cart.includes(product.id)
-                    ? 'Remove from cart'
-                    : 'Add to cart'}
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        )) : (
+          return (
+            <Col key={product.id} xs={12} sm={6} md={6} lg={4}>
+              <Card className="ll-card ll-cart-card">
+                <Card.Img variant="top" src={product.images[0]} />
+                <Card.Body>
+                  <Card.Title style={{ minHeight: '48px' }}>
+                    {product.title}
+                  </Card.Title>
+
+                  <Card.Text>${product.price}</Card.Text>
+
+                  <div className="ll-qty">
+                    <Button
+                      className="ll-qty-btn"
+                      onClick={() => decreaseQty(product.id)}
+                    >
+                      -
+                    </Button>
+
+                    <input
+                      className="ll-qty-input"
+                      type="text"
+                      value={cartItem?.qty || 1}
+                      readOnly
+                    />
+
+                    <Button
+                      className="ll-qty-btn"
+                      onClick={() => addToCart(product.id)}
+                    >
+                      +
+                    </Button>
+                  </div>
+
+                  <Button
+                    className="ll-btn-primary me-1"
+                    onClick={() =>
+                      cart.some(item => item.id === product.id)
+                        ? removeFromCart(product.id)
+                        : addToCart(product.id)
+                    }
+                  >
+                    {cart.some(item => item.id === product.id)
+                      ? 'Remove from cart'
+                      : 'Add to cart'}
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        }) : (
           <p className='lead'>Oh no, your cart is empty. Add loot!</p>
         )}
       </Row>
 
       {Boolean(cart.length) && (
         <>
-          <p className="lead">Does everything look correct?</p>
-          <Card style={{ width: '18rem', margin: 'auto', textAlign: 'left' }}>
+          <p className="lead mt-4">Please insure everything looks correct before proceeding to billing.</p>
+          <Card className="ll-summary-card">
             <Card.Body>
               <Card.Title>Summary</Card.Title>
               <Card.Text>
-                Total number of items: {cart.length}
+                Total number of items: {totalItems}
               </Card.Text>
             </Card.Body>
 
             <ListGroup className="list-group-flush">
-              <ListGroup.Item className="d-flex justify-content-between">
+              <ListGroup.Item
+                className="ll-summary-item d-flex justify-content-between"
+              >
                 <span>Subtotal:</span>
                 <span>${subTotal.toFixed(2)}</span>
               </ListGroup.Item>
@@ -100,7 +133,7 @@ function Cart({ cart, addToCart }) {
             </ListGroup>
 
             <Card.Body style={{ textAlign: 'center' }}>
-              <Card.Link className="btn btn-success" href="#">
+              <Card.Link className="ll-btn-accent" href="#">
                 Proceed to billing
               </Card.Link>
             </Card.Body>

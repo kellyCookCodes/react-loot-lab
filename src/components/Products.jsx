@@ -41,7 +41,7 @@ function Products({ cart, addToCart }) {
         <Form.Select
           value={category}
           onChange={e => setCategory(e.target.value)}
-          style={{ width: '10em' }}
+          className="ll-select"
         >
           <option value='all'>All</option>
           {categories.map((cat, index) => (
@@ -52,32 +52,29 @@ function Products({ cart, addToCart }) {
         </Form.Select>
       </div>
 
-      <Row className='mt-5'>
+      <Row className='mt-5 g-4'>
         {filteredProducts.length ? (
           filteredProducts.map(product => (
-            <Col key={product.id}>
-              <Card style={{ width: '18rem', margin: '1em auto' }}>
+            <Col key={product.id} xs={12} sm={6} md={6} lg={4}>
+              <Card className="ll-card">
                 <Card.Img variant="top" src={product.images[0]} />
                 <Card.Body>
                   <Card.Title style={{ minHeight: '48px' }}>
                     {product.title}
                   </Card.Title>
-
                   <Card.Text>${product.price}</Card.Text>
-
                   <Button
-                    variant="warning"
-                    className='me-1'
+                    className="btn ll-btn-primary me-1"
                     onClick={() => addToCart(product.id)}
                   >
-                    {cart.includes(product.id)
+                    {cart.some(item => item.id === product.id)
                       ? 'Added to the cart'
                       : 'Add to cart'}
                   </Button>
 
                   <Link
                     to='/cart'
-                    className='btn btn-info'
+                    className='btn ll-btn-accent'
                   >
                     Checkout
                   </Link>
